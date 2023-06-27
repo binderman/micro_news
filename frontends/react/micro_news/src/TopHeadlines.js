@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTable, usePagination } from "react-table";
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "http://127.0.0.1:8080";
 
 function TopHeadlines() {
   const [data, setData] = useState([]);
@@ -10,7 +10,7 @@ function TopHeadlines() {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get(`${API_URL}/getTopHeadlines`)
+        .get(`${API_URL}/api/getTopHeadlines`)
         .then((result) => {
           console.log(result);
           setData(result.data.articles);
