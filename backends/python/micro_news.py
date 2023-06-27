@@ -30,7 +30,7 @@ def get_author_articles(author):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return response
 
-@app.route('/getTopHeadlines', methods=['GET'])
+@app.route('/api/getTopHeadlines', methods=['GET'])
 def get_top_headlines():        
     response = requests.get(f'https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}')
     response = jsonify(response.json())
@@ -40,4 +40,4 @@ def get_top_headlines():
     return response
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=8080)
