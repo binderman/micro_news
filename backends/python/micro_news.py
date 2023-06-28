@@ -9,7 +9,7 @@ API_KEY = '8dade0feadcf43e285e215cc7271de9c'
 URL = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}'
 
 def add_cors_headers(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
     response.headers.add('Access-Control-Allow-Methods', 'GET')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return response
