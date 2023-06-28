@@ -1,12 +1,17 @@
 use actix_cors::Cors;
-use actix_web::{web, App, HttpResponse, HttpServer, Responder, http::header};
+use actix_web::{web, App, HttpResponse, HttpServer, Responder, http::header, middleware};
 use reqwest::Error;
 use serde_json::Value;
+use env_logger::Env;
 
 const API_KEY: &str = "8dade0feadcf43e285e215cc7271de9c";
 
 async fn fetch_data(url: String) -> Result<Value, Error> {
-    let response = reqwest::get(&url).await?;
+    let client = reqwest::Client::builder()
+        // .user_agent("Micro News")
+        .build()?;
+
+    let response = client.get(&url).send().await?;
     let data: Value = response.json().await?;
     println!("{:#?}", data);
     Ok(data)
@@ -41,6 +46,7 @@ async fn get_top_headlines() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::Builder::from_env(Env::default().default_filter_or("info")).init();
     HttpServer::new(|| {
         let cors = Cors::default()
             .allowed_origin("http://localhost:3000")
@@ -51,6 +57,9 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(cors)
+            .wrap(
+                middleware::Logger::new("%a %{User-Agent}i %b %D %r %s")
+            )
             .service(web::resource("/api/getArticle/{title}").to(get_article))
             .service(web::resource("/api/getAuthorArticles/{author}").to(get_author_articles))
             .service(web::resource("/api/getTopHeadlines").to(get_top_headlines))
