@@ -10,7 +10,11 @@ function TopHeadlines() {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get(`${API_URL}/api/getTopHeadlines`)
+        .get(`${API_URL}/api/getTopHeadlines`, {
+          headers: {
+            "User-Agent": "Micro News",
+          },
+        })
         .then((result) => {
           console.log(result);
           setData(result.data.articles);
