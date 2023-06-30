@@ -1,6 +1,6 @@
 # Micro News: A Multi-Language Server API Project 
 
-Welcome to Micro News, a diverse project that showcases how to build a server API across different programming languages and platforms. This repository contains implementations of the same server in Python, Java, Node.js, Rust, and C#. These servers provide an API for news using [NewsAPI](https://newsapi.org/). 
+Welcome to Micro News, a project that showcases how to build a server API across different programming languages and platforms. This repository contains implementations of the same server in Python, Java, Node.js, Rust, and C#. These servers provide an API for news using [NewsAPI](https://newsapi.org/). 
 
 As of now, there is a React frontend provided to consume the API from the servers. The future plan is to add frontends in Angular, SwiftUI, Android, and Flutter. The primary objective is to highlight the differences between languages and platforms, giving users a comprehensive look into their unique features, strengths, and weaknesses.
 
