@@ -8,7 +8,7 @@ const API_KEY: &str = "8dade0feadcf43e285e215cc7271de9c";
 
 async fn fetch_data(url: String) -> Result<Value, Error> {
     let client = reqwest::Client::builder()
-        // .user_agent("Micro News")
+        .user_agent("Micro News")
         .build()?;
 
     let response = client.get(&url).send().await?;
@@ -17,8 +17,9 @@ async fn fetch_data(url: String) -> Result<Value, Error> {
     Ok(data)
 }
 
-async fn get_article(title: String) -> impl Responder {
-    let url = format!("https://newsapi.org/v2/everything?q={}&apiKey={}", title, API_KEY);
+async fn get_article(info: web::Path<(String,)>) -> impl Responder {
+    let title = &info.0;
+    let url = format!("https://newsapi.org/v2/everything?apiKey={}&qInTitle={}", API_KEY, title);
     let article = fetch_data(url).await;
     match article {
         Ok(value) => HttpResponse::Ok().json(value),
@@ -26,8 +27,9 @@ async fn get_article(title: String) -> impl Responder {
     }
 }
 
-async fn get_author_articles(author: String) -> impl Responder {
-    let url = format!("https://newsapi.org/v2/everything?sources={}&apiKey={}", author, API_KEY);
+async fn get_author_articles(info: web::Path<(String,)>) -> impl Responder {
+    let author = &info.0;
+    let url = format!("https://newsapi.org/v2/everything?language=en&apiKey={}&q={}", API_KEY, author);
     let articles = fetch_data(url).await;
     match articles {
         Ok(value) => HttpResponse::Ok().json(value),
